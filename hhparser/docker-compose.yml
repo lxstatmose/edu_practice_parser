@@ -1,0 +1,29 @@
+version: '3.8'
+name: parser
+
+services:
+  db:
+    build:
+      context: ./db
+    environment:
+      POSTGRES_DB: vacancies
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  bot:
+    build: ./bot
+    depends_on:
+      - db
+    environment:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      POSTGRES_DB: vacancies
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: db
+    command: python telegram_bot.py
+
+volumes:
+  postgres-data:
+
