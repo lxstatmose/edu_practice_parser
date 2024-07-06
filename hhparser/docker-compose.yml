@@ -2,9 +2,9 @@ version: '3.8'
 name: parser
 
 services:
-  db:
+  database:
     build:
-      context: ./db
+      context: ./database
     environment:
       POSTGRES_DB: vacancies
       POSTGRES_USER: postgres
@@ -12,10 +12,10 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
-  bot:
-    build: ./bot
+  telegram_bot:
+    build: ./telegram_bot
     depends_on:
-      - db
+      - database
     environment:
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
       POSTGRES_DB: vacancies
